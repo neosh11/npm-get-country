@@ -4,7 +4,7 @@
 <img src="https://img.shields.io/pypi/wheel/pip?color=green&label=es6"/>
 <img src="https://img.shields.io/pypi/wheel/pip?color=green&label=React"/>
 
-<img src="https://img.shields.io/bundlephobia/min/ip-info-react/0.0.3"/>
+<img src="https://img.shields.io/bundlephobia/min/ip-info-react/0.0.9"/>
 <img src="https://img.shields.io/bundlephobia/minzip/ip-info-react"/>
 <img src="https://img.shields.io/npm/v/ip-info-react"/>
 
@@ -28,7 +28,7 @@ IPInfo is a simple React context for fetching and storing IP and location inform
 ### 1. Wrap your app
 
 ```ts
-import IPInfo from './IPInfo';
+import IPInfo from 'ip-info-react';
 
 function App() {
   return <IPInfo>{/* Your application components */}</IPInfo>;
@@ -39,7 +39,7 @@ function App() {
 
 ```ts
 import { useContext } from 'react';
-import { IPInfoContext } from './IPInfo';
+import { IPInfoContext } from 'ip-info-react';
 
 function MyComponent() {
   const userInfo = useContext(IPInfoContext);
@@ -96,4 +96,3 @@ Please note that some properties may be undefined if the data is not available.
 ## Dependencies
 
 - React
-- Axios (We won't install)

@@ -8,7 +8,7 @@ const buildOptions = {
   platform: 'browser', // Target platform for browser
   target: 'es2020', // Target ECMAScript version
   minify: true, // Minify the output
-  external: ['react', 'react-dom', 'axios'], // Mark 'react' and 'react-dom' as external dependencies
+  external: ['react', 'react-dom', 'fetch'], // Mark 'react' and 'react-dom' as external dependencies
   loader: {
     '.ts': 'tsx', // Load TypeScript files as TSX
   },

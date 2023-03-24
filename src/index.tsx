@@ -1,7 +1,5 @@
 import React, { createContext, PropsWithChildren, useEffect, useMemo, useState } from 'react';
 
-import axios from 'axios';
-
 export type UserInfo = {
   ip?: string;
   network?: string;
@@ -32,16 +30,80 @@ export type UserInfo = {
   org?: string;
 };
 
-const defaultInfo: UserInfo = {};
+const defaultInfo: UserInfo = {
+  ip: undefined,
+  network: undefined,
+  version: undefined,
+  city: undefined,
+  region: undefined,
+  region_code: undefined,
+  country: undefined,
+  country_name: undefined,
+  country_code: undefined,
+  country_code_iso3: undefined,
+  country_capital: undefined,
+  country_tld: undefined,
+  continent_code: undefined,
+  in_eu: undefined,
+  postal: undefined,
+  latitude: undefined,
+  longitude: undefined,
+  timezone: undefined,
+  utc_offset: undefined,
+  country_calling_code: undefined,
+  currency: undefined,
+  currency_name: undefined,
+  languages: undefined,
+  country_area: undefined,
+  country_population: undefined,
+  asn: undefined,
+  org: undefined,
+};
 
 export const IPInfoContext = createContext<UserInfo>(defaultInfo);
 const localstoreName = 'storefeuinverau_country_code';
 
 const IPInfo = ({ children }: PropsWithChildren<Record<never, never>>) => {
   const [locationData, setLocationData] = useState<UserInfo>(defaultInfo);
-  const [loadlocation, setloadlocation] = useState(false);
+  const [currentIp, setcurrentIp] = useState('');
 
-  // save location locally on browser
+  // on first render, get the ip address and set it
+  useEffect(() => {
+    // load from local storage
+    // get the current IP
+    fetch('https://api.ipify.org?format=json')
+      .then((response) => response.json())
+      .then((data) => {
+        // get the location data and check if it has changed
+        const localData = localStorage.getItem(localstoreName);
+        // parse local storage data
+        if (localData) {
+          const convertToObj = JSON.parse(localData);
+          // check if ip has changed
+          if (convertToObj.ip !== data.ip) {
+            // change the ip, otherwise do nothing
+            setcurrentIp(data.ip);
+          } else {
+            // set the location data
+            setLocationData(convertToObj);
+          }
+        } else {
+          // need new data
+          setcurrentIp(data.ip);
+        }
+      });
+  }, []);
+
+  // check if ip has changed -> if it has changed, get the new location data
+  useEffect(() => {
+    if (currentIp && currentIp !== '') {
+      fetch(`https://ipapi.co/${currentIp}/json`)
+        .then((response) => response.json())
+        .then((data) => setLocationData(data));
+    }
+  }, [currentIp]);
+
+  // Everytime location data changes, save it to local storage
   useEffect(() => {
     if (locationData && locationData.ip) {
       const convertToStr = JSON.stringify(locationData);
@@ -49,52 +111,8 @@ const IPInfo = ({ children }: PropsWithChildren<Record<never, never>>) => {
     }
   }, [locationData]);
 
-  // check if data exists on in local storage
-  useEffect(() => {
-    if (setLocationData) {
-      const ipDataStr = localStorage.getItem(localstoreName);
-      const ipData = JSON.parse(ipDataStr || '{}');
-      const countryCode = ipData.country_code;
-
-      if (countryCode) {
-        const currentip = ipData.ip;
-
-        axios.get('https://api.ipify.org?format=json').then((res) => {
-          const ip = res.data.ip;
-          // check if ip matches
-          if (ip !== currentip) {
-            // refetch
-            setloadlocation(true);
-          } else {
-            // set data
-            setLocationData(res.data);
-          }
-        });
-      } else {
-        // start loaction getting
-        // fetch ip -> check if we need to refetch
-
-        setloadlocation(true);
-      }
-    }
-  }, [setLocationData]);
-
-  useEffect(() => {
-    if (loadlocation) {
-      axios.get('https://api.ipify.org?format=json').then((res) => {
-        const ip = res.data.ip;
-
-        if (ip) {
-          axios.get(`https://ipapi.co/${ip}/json`).then((res) => {
-            setLocationData(res.data);
-          });
-        }
-      });
-      setloadlocation(false);
-    }
-  }, [loadlocation]);
-
-  const userInfo = useMemo(() => locationData || defaultInfo, [locationData]);
+  // make ip the dependency to look for changes
+  const userInfo = useMemo(() => locationData, [locationData]);
 
   return <IPInfoContext.Provider value={userInfo}>{children}</IPInfoContext.Provider>;
 };
