@@ -1,6 +1,6 @@
 {
   "name": "ip-info-react",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "This package lets you get information about your user's ip address.",
   "main": "./dist/bundle.cjs.js",
   "module": "./dist/bundle.esm.js",
