@@ -1,0 +1,7 @@
+src
+tsconfig.json
+tslint.json
+.prettierrc
+*.map
+node_modules/
+dist/node_modules/
