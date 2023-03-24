@@ -3,7 +3,6 @@
 <p>
 <img src="https://img.shields.io/pypi/wheel/pip?color=green&label=es6"/>
 <img src="https://img.shields.io/pypi/wheel/pip?color=green&label=React"/>
-
 <img src="https://img.shields.io/bundlephobia/min/ip-info-react/1.0.0"/>
 <img src="https://img.shields.io/bundlephobia/minzip/ip-info-react/1.0.0"/>
 <img src="https://img.shields.io/npm/v/ip-info-react"/>
