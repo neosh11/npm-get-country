@@ -4,7 +4,7 @@
 <img src="https://img.shields.io/pypi/wheel/pip?color=green&label=es6"/>
 <img src="https://img.shields.io/pypi/wheel/pip?color=green&label=React"/>
 <img src="https://img.shields.io/bundlephobia/min/ip-info-react/0.0.9"/>
-<img src="https://img.shields.io/bundlephobia/minzip/ip-info-react"/>
+<img src="https://img.shields.io/bundlephobia/minzip/ip-info-react/0.0.9"/>
 <img src="https://img.shields.io/npm/v/ip-info-react"/>
 
 <img src="https://img.shields.io/twitter/follow/IGrowNeo?style=social"/>
